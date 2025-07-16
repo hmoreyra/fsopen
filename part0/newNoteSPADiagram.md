@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -8,3 +9,4 @@ sequenceDiagram
     server->>browser: 201 Created
     deactivate server
     Note right of browser: The browser starts executing the JavaScript code that reloads the notes (without asking the server)
+```
