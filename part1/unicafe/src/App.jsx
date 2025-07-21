@@ -4,16 +4,21 @@ const Button = ({text, handleClick}) => <button onClick={handleClick}> {text} </
 
 const Statistics = ({good,neutral,bad}) => {
   const all = good+neutral+bad
-  const safeDivide = (numerator, denominator) => denominator !== 0 ? numerator/denominator : 0
   return(
     <div>
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {all}</p>
-      <p>average {safeDivide(good - bad, all)}</p>
-      <p>positive {safeDivide(good * 100, all)} %</p>
+      {all != 0 ? 
+        <div>
+          <p>good {good}</p>
+          <p>neutral {neutral}</p>
+          <p>bad {bad}</p>
+          <p>all {all}</p>
+          <p>average {(good - bad) / all}</p>
+          <p>positive {good * 100 / all} %</p>
+        </div>
+        :
+        <p>No feedback given</p>
+      }
     </div>
   )
 }
