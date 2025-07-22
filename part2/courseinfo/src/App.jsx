@@ -24,8 +24,7 @@ const Course = ({course}) =>{
       <Total
         total={
           course.parts
-            .map(p => p.exercises)
-            .reduce((sum,cur) => sum + cur, 0)
+            .reduce((sum,cur) => sum + cur.exercises, 0)
         }
       />
     </div>
