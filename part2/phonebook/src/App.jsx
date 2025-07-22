@@ -8,8 +8,13 @@ const App = () => {
 
   const handleSubmit = (e) =>{
     e.preventDefault()
-    setPersons(persons.concat({name: newName}))
-    setNewName('')
+    if(persons.some(p => p.name === newName)){ // persons.map(p => p.name).includes(newName) works too, but it's more inefficient
+      alert(`${newName} is already added to phonebook`)
+    }
+    else{
+      setPersons(persons.concat({name: newName}))
+      setNewName('')
+    }
   }
 
   return (
