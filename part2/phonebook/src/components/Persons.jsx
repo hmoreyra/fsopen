@@ -1,6 +1,6 @@
 import Person from "./Person"
 
-const Persons = ({persons, filter}) => {
+const Persons = ({persons, filter, handleDelete}) => {
 
     const personsToShow = filter === '' 
         ? persons 
@@ -11,7 +11,7 @@ const Persons = ({persons, filter}) => {
     return(
         <div>
             {personsToShow.map(person => 
-                <Person key={person.name} person={person}/>
+                <Person key={person.name} person={person} handleDelete={handleDelete}/>
             )}
         </div>
     )

@@ -16,7 +16,25 @@ const App = () => {
         .then(people => {
           setPersons(people)
         })
+        .catch(() => {
+          console.log(`error fetching all the persons`)
+        })
   },[])
+
+  const handleDelete = (person) => {
+    if(window.confirm(`Are you sure you want to delete "${person.name}"?`)){
+      personService
+        .deletePerson(person.id)
+        .then(() => {
+          setPersons(
+            persons.filter(p => p.id !== person.id)
+          )
+        })
+        .catch(() => {
+            console.log(`error deleting person with id ${person.id}`)
+        })
+    }
+  }
 
   const handleSubmit = (e) =>{
     e.preventDefault()
@@ -30,6 +48,9 @@ const App = () => {
           setPersons(persons.concat(newPerson))
           setNewName('')
           setPhoneNumber('')
+        })
+        .catch(() => {
+            console.log(`error creating person with name ${newName}`)
         })
     }
   }
@@ -52,7 +73,7 @@ const App = () => {
       
       <h3>Numbers</h3>
 
-      <Persons persons={persons} filter={filter}/>
+      <Persons persons={persons} filter={filter} handleDelete={handleDelete}/>
     </div>
   )
 }

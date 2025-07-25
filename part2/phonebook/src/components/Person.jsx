@@ -1,6 +1,11 @@
-const Person = ({person}) =>{
+import './Person.css'
+
+const Person = ({person, handleDelete}) =>{
     return(
-        <p>{person.name} {person.number}</p>
+        <div className="person-row">
+            <p className="person-text">{person.name} {person.number}</p>
+            <button className="person-button" onClick={() => handleDelete(person)}>delete</button>
+        </div>
     )
 }
 

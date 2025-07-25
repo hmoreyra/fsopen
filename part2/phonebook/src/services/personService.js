@@ -7,6 +7,9 @@ const getAll = () => {
         axios
             .get(baseUrl)
             .then(res => res.data)
+            .catch(() => {
+                console.log(`error fetching all the persons`)
+            })
     )
 }
 
@@ -18,4 +21,12 @@ const postPerson = (person) => {
     )
 }
 
-export default { getAll, postPerson }
+const deletePerson = (personId) => {
+    return (
+        axios
+            .delete(`${baseUrl}/${personId}`)
+            .then(res => res.data)
+    )
+}
+
+export default { getAll, postPerson, deletePerson }
