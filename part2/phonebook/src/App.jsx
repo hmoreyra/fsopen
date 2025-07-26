@@ -54,15 +54,15 @@ const App = () => {
   }
 
   const updateExistingPerson = (person) => {
-    personService.
-    updatePerson(person.id, {id: person.id, name: newName, number: phoneNumber})
-    .then(updatedPerson => {
-      setPersons(persons.map(p => p.id === updatedPerson.id ? updatedPerson : p))
-      clearForm()
-    })
-    .catch(() => {
+    personService
+      .updatePerson(person.id, {id: person.id, name: newName, number: phoneNumber})
+      .then(updatedPerson => {
+        setPersons(persons.map(p => p.id === updatedPerson.id ? updatedPerson : p))
+        clearForm()
+      })
+      .catch(() => {
         console.log(`error updating person with name ${newName}`)
-    })
+      })
   }
 
   const handleSubmit = (e) =>{
