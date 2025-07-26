@@ -7,16 +7,21 @@ const getAll = () => {
         axios
             .get(baseUrl)
             .then(res => res.data)
-            .catch(() => {
-                console.log(`error fetching all the persons`)
-            })
     )
 }
 
-const postPerson = (person) => {
+const createPerson = (person) => {
     return (
         axios
             .post(baseUrl, person)
+            .then(res => res.data)
+    )
+}
+
+const updatePerson = (id, person) => {
+    return (
+        axios
+            .put(`${baseUrl}/${id}`, person)
             .then(res => res.data)
     )
 }
@@ -29,4 +34,4 @@ const deletePerson = (personId) => {
     )
 }
 
-export default { getAll, postPerson, deletePerson }
+export default { getAll, createPerson, updatePerson, deletePerson }

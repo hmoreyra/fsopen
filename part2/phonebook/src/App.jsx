@@ -35,23 +35,55 @@ const App = () => {
         })
     }
   }
+  
+  const clearForm = () => {
+    setNewName('')
+    setPhoneNumber('')
+  }
+
+  const createNewPerson = () => {
+    personService
+      .createPerson({name: newName, number: phoneNumber})
+      .then(newPerson => {
+        setPersons(persons.concat(newPerson))
+        clearForm()
+      })
+      .catch(() => {
+          console.log(`error creating person with name ${newName}`)
+      })
+  }
+
+  const updateExistingPerson = (person) => {
+    personService.
+    updatePerson(person.id, {id: person.id, name: newName, number: phoneNumber})
+    .then(updatedPerson => {
+      setPersons(persons.map(p => p.id === updatedPerson.id ? updatedPerson : p))
+      clearForm()
+    })
+    .catch(() => {
+        console.log(`error updating person with name ${newName}`)
+    })
+  }
 
   const handleSubmit = (e) =>{
     e.preventDefault()
-    if(persons.some(p => p.name === newName || p.number === phoneNumber)){
-      alert(`Either the name '${newName}' or the phone number '${phoneNumber}' has already been added to the phonebook.`)
+    if(persons.some(p => p.number === phoneNumber)){
+      alert(`The phone number '${phoneNumber}' has already been added to the phonebook.`)
+      return
+    }
+
+    const existingByName = persons.find(p => p.name === newName)
+    if(existingByName){
+      const isConfirmedUpdate = 
+        window.confirm(
+          `"${existingByName.name}" is already added to the phonebook, replace the old number with a new one?`
+        )
+      if(isConfirmedUpdate){
+        updateExistingPerson(existingByName)
+      }
     }
     else{
-      personService
-        .postPerson({name: newName, number: phoneNumber})
-        .then(newPerson => {
-          setPersons(persons.concat(newPerson))
-          setNewName('')
-          setPhoneNumber('')
-        })
-        .catch(() => {
-            console.log(`error creating person with name ${newName}`)
-        })
+      createNewPerson()
     }
   }
 
