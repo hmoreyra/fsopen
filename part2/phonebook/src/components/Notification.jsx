@@ -1,13 +1,15 @@
 import './Notification.css'
 
-const Notification = ({message}) => {
-    if (message === null){
+const Notification = ({notificationInfo}) => {
+    if (notificationInfo === null){
         return null
     }
 
+    const notificationType = notificationInfo.isError ? "notification error" : "notification success"
+
     return (
-        <div className="notification">
-            {message}
+        <div className={notificationType}>
+            {notificationInfo.message}
         </div>
     )
 }

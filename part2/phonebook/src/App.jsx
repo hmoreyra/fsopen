@@ -10,7 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationInfo, setNotificationInfo] = useState(null)
 
   useEffect(() => {
       personService.
@@ -38,10 +38,10 @@ const App = () => {
     }
   }
 
-  const handleNotificationMessage = (message) => {
-    setNotificationMessage(message);
+  const handleNotification = (info) => {
+    setNotificationInfo(info);
     setTimeout(() => {
-      setNotificationMessage(null)
+      setNotificationInfo(null)
     }, 5000)
   }
   
@@ -55,7 +55,10 @@ const App = () => {
       .createPerson({name: newName, number: phoneNumber})
       .then(newPerson => {
         setPersons(persons.concat(newPerson))
-        handleNotificationMessage(`Added ${newName}`)
+        handleNotification({
+          message: `Added ${newName}`,
+          isError: false
+        })
         clearForm()
       })
       .catch(() => {
@@ -68,11 +71,17 @@ const App = () => {
       .updatePerson(person.id, {id: person.id, name: newName, number: phoneNumber})
       .then(updatedPerson => {
         setPersons(persons.map(p => p.id === updatedPerson.id ? updatedPerson : p))
-        handleNotificationMessage(`Updated ${newName}'s number`)
+        handleNotification({
+          message:`Updated ${newName}'s number`,
+          isError: false 
+        })
         clearForm()
       })
       .catch(() => {
-        console.log(`error updating person with name ${newName}`)
+        handleNotification({
+          message: `Information of ${newName} has already been removed from server`,
+          isError: true
+        })
       })
   }
 
@@ -102,7 +111,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       
-      <Notification message={notificationMessage}/>
+      <Notification notificationInfo={notificationInfo}/>
 
       <Filter value={filter} handleChange={e=>setFilter(e.target.value)}/>
 
