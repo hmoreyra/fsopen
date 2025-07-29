@@ -5,7 +5,9 @@ const Notification = ({notificationInfo}) => {
         return null
     }
 
-    const notificationType = notificationInfo.isError ? "notification error" : "notification success"
+    const notificationType = notificationInfo.isError 
+        ? "notification error" 
+        : "notification success"
 
     return (
         <div className={notificationType}>
