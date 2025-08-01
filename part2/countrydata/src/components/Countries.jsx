@@ -1,28 +1,41 @@
 import Country from "./Country"
+import { useState, useEffect } from "react"
 
 const Countries = ({countries, search}) => {
-    const filtered = countries
-        .filter(c =>
-            c.name.common.toLowerCase().includes(search.toLowerCase())
-        )
+    const [selectedCountry, setSelectedCountry] = useState(null)
 
-    if (filtered.length > 10){
+    useEffect(() => {
+        setSelectedCountry(null)
+    }, [search])
+
+    const filtered = countries.filter(c =>
+        c.name.common.toLowerCase().includes(search.toLowerCase())
+    )
+
+    if (filtered.length === 0){
+        return <p>No results</p>
+    }
+
+    if (filtered.length === 1) {
+        return <Country country={filtered[0]} />
+    }
+
+    if (filtered.length > 10) {
         return <p>Too many matches, specify another filter</p>
     }
 
-    if (filtered.length > 1){
-        return (
-            filtered.map(c => <div key={c.cca3}>{c.name.common}</div>)
-        )
-    }
+    return (
+        <div>
+            {filtered.map(c => (
+                <div key={c.cca3}>
+                    {c.name.common}
+                    <button onClick={() => setSelectedCountry(c)}>Show</button>
+                </div>
+            ))}
 
-    if (filtered.length === 1){
-        return <Country country={filtered[0]}/>
-    }
-
-    else{
-        return <p>No results</p>
-    }
+            {selectedCountry && <Country country={selectedCountry} />}
+        </div>
+    )
 }
 
 export default Countries
